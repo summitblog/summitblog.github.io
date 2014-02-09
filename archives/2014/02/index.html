@@ -85,6 +85,65 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-02-08T16:52:11.000Z"><a href="/2014/02/09/vc6-comiple-curl/">Feb 9 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/09/vc6-comiple-curl/">vc6下编译curl</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天，天气有雨。温度9到2度。结束春节长假，见了一些同学，也应该把心静下来工作了。</p>
+<p>重新把年前的工作整理一下，还有一个遗留问题就是如何把代码移植到VC6.0下（有时候项目就是这样，用什么工具由不了你）</p>
+<p>首先，用vitrualbox安装了xp系统，vc6.0在虚拟机下跑起来很快，这使得我有点想返朴归真的感觉，也理解了老姚为啥要用vc6开发。</p>
+<p>在编译curl时还是遇到原来的问题。这里只把成功步骤简略：</p>
+<ol>
+<li><p>下载openssl，切记下载openssl-0.9.8g, 因为新的版本不支持vc6.0，编译步骤如下：</p>
+<ul>
+<li>首先要安装 ActivePerl</li>
+<li>命令行方式进入openssl目录</li>
+<li>perl Configure VC-WIN32 —prefix=C:\openssl</li>
+<li>ms\do_ms</li>
+<li>编译静态库 nmake -f ms\nt.mak 【注意，可以修改nt.mat的代码生成方式为MT或MTd，默认为MD】</li>
+<li>nmake -f ms\nt.mak install</li>
+</ul>
+</li>
+<li><p>下载zlib，编译步骤如下：</p>
+<ul>
+<li>命令行方式进入zlib目录</li>
+<li>nmake -f win32/Makefile.msc 【注意，可以修改代码生成方式为MT或MTd，默认为MD】</li>
+</ul>
+</li>
+<li><p>最后编译libcurl， 在curl-XXX\lib目录下新建build.bat,输入以下内容</p>
+<p> call “C:/Program Files/Microsoft Visual Studio/VC98/Bin/vcvars32.bat”<br> set CFG=release-ssl-zlib 【这里可以修改为debug】<br> set OPENSSL_PATH=C:/Libs/openssl-0.9.8g<br> set ZLIB_PATH=C:/Libs/zlib-1.2.8<br> set WINDOWS_SSPI=0<br> set RTLIBCFG=static 【这里可以指明是否生成静态库】<br> nmake -f Makefile.vc6 【注意，可以修改代码生成方式为MT或MTd，默认为MD】</p>
+</li>
+<li><p>把curl/include及/lib/libcurl.lib, zlib.lib, libeay32.lib, ssleay32.lib拷贝出来即可以使用。</p>
+</li>
+</ol>
+<p>打包给老姚，搭建完博客，已是1点。这是2014年的第9天。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-02-08T16:37:21.000Z"><a href="/2014/02/09/hello-world/">Feb 9 2014</a></time>
       
       
@@ -127,10 +186,35 @@
 </div>
 
   
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/编程工具/">编程工具</a><small>1</small></li>
+  
+  </ul>
+</div>
+
 
   
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/curl, 编译环境配置/">curl, 编译环境配置</a><small>1</small></li>
+  
+  </ul>
+</div>
+
 
   
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/curl, 编译环境配置/" style="font-size: NaNpx;">curl, 编译环境配置</a>
+  </div>
+</div>
+
 </aside>
     <div class="clearfix"></div>
   </div>
